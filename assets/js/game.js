@@ -27,14 +27,16 @@ var fight = function(enemyName) {
             if (confirmSkip) {
                 window.alert(playerName + " has decided to skip this fight. Goodbye!");
                 // subtract money from playerMoney for skipping
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log("playerMoney" , playerMoney);
                 break;
             }
         } 
         
-        //remove enemy's health by subtracting the amount set in the playerAttack variable
-        enemyHealth = enemyHealth - playerAttack;
+        // generate random damage value based on player's attack power
+        var damage = randomNumber(playerAttack - 3, playerAttack);
+
+        enemyHealth = Math.max(0, enemyHealth - damage);
         console.log(
             playerName + " attacked " + enemyName + " . " + enemyName + " now has " + enemyHealth + " health remaining."
             );
@@ -52,8 +54,10 @@ var fight = function(enemyName) {
                 window.alert(enemyName + " sill has " + enemyHealth + " health left. ");
             }
             
-            // remove player's health by subtracting the amount set in the enemyAttack variable
-            playerHealth = playerHealth - enemyAttack;
+            var damage = randomNumber(enemyAttack - 3, enemyAttack);
+
+            playerHealth = Math.max(0, playerHealth - damage)
+            ;
             console.log(
                 enemyName + " attacked " + playerName + " . " + playerName + " now has " + playerHealth + " health remaining."
                 );
@@ -85,7 +89,7 @@ var fight = function(enemyName) {
                     var pickedEnemyName = enemyNames[i];
                     
                     // reset enemyHealth before starting new fight
-                    enemyHealth = 50;
+                    enemyHealth = randomNumber(40,60);
                     
                     //pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName paramaters
                     fight(pickedEnemyName);
@@ -135,32 +139,53 @@ var fight = function(enemyName) {
                "Would you like th REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
            );
            switch (shopOptionPrompt) {
-               case "refill":
+            case "REFILL": // new case   
+            case "refill":
+                if (playerMoney >= 7){
                    window.alert("Refilling player's health by 20 for 7 dollars.");
                
                 //increase health and decrease money
                 playerHealth = playerHealth + 20;
                 playerMoney = playerMoney - 7;
+                } 
+                else {
+                    window.alert("You don't have enough money!");
+                }
+
                 break;
-               case "upgrade":
+            case "UPGRADE": //new case
+            case "upgrade":
+                if (playerMoney >= 7){
                    window.alert("Upgrading player's attack by 6 for 7 dollars");
 
                    // increase attack and decrease money
                    playerAttack = playerAttack + 6;
                    playerMoney = playerMoney - 7;
+                  }
+                  else {
+                    window.alert("You don't have enough money!");
+                }
                    break;
-                case "leave":
-                    window.alert("Leaving the store");
+            case "LEAVE": //new case
+            case "leave":
+                 window.alert("Leaving the store");
 
-                    //do nothing, so function will end
-                    break;
-                default:
-                    window.alert("You did not pick a vaild option. Try again.");
+                //do nothing, so function will end
+                break;
+            default:
+                window.alert("You did not pick a vaild option. Try again.");
 
-                    // call shop() again to force player to pick a vaild option
-                    shop();
-                    break;
+                // call shop() again to force player to pick a vaild option
+                shop();
+                break;
            }
+        };
+
+        //function to generate a random numeric value
+        var randomNumber = function(min, max) {
+            var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+            return value;
         };
 
         startGame();
