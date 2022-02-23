@@ -24,6 +24,30 @@ var fight = function () {
     //anything inside the curly brackets is called the block code
     window.alert("Welcome to Robot Gladiators!");
 
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+
+    // if player choses to fight, then fight
+    if(promptFight === "fight" || promptFight === "FIGHT"){
+        // remove enemy's health by subtracting the amount set in the playerAttack variable
+        enemyHealth = enemyHealth - playerAttack;
+        console.log(
+            playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
+        );
+        
+        //chcek enemy's health
+        if (enemyHealth <= 0) {
+            window.alert(enemyName + " has died!");
+        } else {
+            window.alert(enemyName + " has " + enemyHealth + " health left.");
+        }
+
+        //if player choses to skip
+    }else if (promptFight=== "skip" || promptFight === "SKIP"){
+        window.alert(playerName + " has chosen to skip the fight!");
+    } else {
+        window.alert("You need to choose a valid option. Try again!");
+    }
+
     //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable 
     enemyHealth = enemyHealth - playerAttack;
 
